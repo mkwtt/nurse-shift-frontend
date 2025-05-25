@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "@/redux/slices/authSlice";
 import Swal from "sweetalert2";
+import Link from "next/link";
 
 export default function LoginPage() {
   const { register, handleSubmit } = useForm();
@@ -66,6 +67,12 @@ export default function LoginPage() {
       >
         Login
       </button>
+      <p className="mt-4 text-center text-sm">
+        ยังไม่มีบัญชี?{" "}
+        <Link href="/register" className="text-blue-500 hover:underline">
+          สร้างบัญชี
+        </Link>
+      </p>
     </form>
   );
 }
