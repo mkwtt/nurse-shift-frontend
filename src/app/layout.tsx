@@ -1,9 +1,10 @@
-"use client";
-
-import { Provider } from "react-redux";
-import { store } from "@/redux/store";
-import AuthProvider from "@/components/AuthProvider";
 import "./globals.css";
+import StoreProvider from "@/components/StoreProvider";
+
+export const metadata = {
+  title: "ระบบจัดเวรพยาบาล",
+  description: "ระบบสำหรับจัดตารางเวรพยาบาลและจัดการคำขอลา",
+};
 
 export default function RootLayout({
   children,
@@ -11,11 +12,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="th">
       <body>
-        <Provider store={store}>
-          <AuthProvider>{children}</AuthProvider>
-        </Provider>
+        <StoreProvider>{children}</StoreProvider>
       </body>
     </html>
   );

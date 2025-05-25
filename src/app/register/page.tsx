@@ -64,6 +64,7 @@ export default function RegisterPage() {
           <input
             {...register("name", { required: true })}
             className="w-full rounded border px-3 py-2"
+            placeholder="ชื่อ"
           />
           {errors.name && (
             <span className="text-sm text-red-500">กรุณากรอกชื่อ</span>
@@ -76,6 +77,7 @@ export default function RegisterPage() {
             type="email"
             {...register("email", { required: true })}
             className="w-full rounded border px-3 py-2"
+            placeholder="อีเมล"
           />
           {errors.email && (
             <span className="text-sm text-red-500">กรุณากรอกอีเมล</span>
@@ -88,6 +90,7 @@ export default function RegisterPage() {
             type="password"
             {...register("password", { required: true })}
             className="w-full rounded border px-3 py-2"
+            placeholder="รหัสผ่าน"
           />
           {errors.password && (
             <span className="text-sm text-red-500">กรุณากรอกรหัสผ่าน</span>
