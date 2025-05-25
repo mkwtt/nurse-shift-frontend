@@ -126,6 +126,8 @@ export default function NursePage() {
       <div className="text-end">
         <LogoutButton />
       </div>
+      <h1 className="text-center text-2xl font-bold">ยินดีต้อนรับ พยาบาล</h1>
+      <h1 className="text-center text-2xl font-bold">{user?.name}</h1>
       <h1 className="mb-4 text-center text-2xl font-bold">ตารางเวรของฉัน</h1>
       <table className="w-full border border-black">
         <thead>
@@ -136,28 +138,38 @@ export default function NursePage() {
           </tr>
         </thead>
         <tbody>
-          {shifts.map((s) => (
-            <tr key={s.shift_assignment_id}>
-              <td className="border border-black p-2 text-center">
-                {new Date(s.date).toLocaleDateString("th-TH")}
-              </td>
-              <td className="border border-black p-2 text-center">
-                {s.start_time.slice(0, 5)} - {s.end_time.slice(0, 5)}
-              </td>
-              <td className="border border-black p-2 text-center">
-                <button
-                  onClick={() => handleLeaveRequest(s.shift_assignment_id)}
-                  disabled={s.leave_requested === 1}
-                  className={`rounded px-3 py-1 text-white ${s.leave_requested === 1 ? "cursor-not-allowed bg-gray-400" : "bg-red-500 hover:bg-red-600"}`}
-                >
-                  {s.leave_requested === 1 ? "ลาแล้ว" : "ขอลา"}
-                </button>
+          {shifts.length === 0 ? (
+            <tr>
+              <td
+                colSpan={3}
+                className="border border-black p-4 text-center text-gray-500"
+              >
+                ยังไม่มีเวรที่ได้รับมอบหมาย
               </td>
             </tr>
-          ))}
+          ) : (
+            shifts.map((s, index) => (
+              <tr key={s.shift_assignment_id || index}>
+                <td className="border border-black p-2 text-center">
+                  {new Date(s.date).toLocaleDateString("th-TH")}
+                </td>
+                <td className="border border-black p-2 text-center">
+                  {s.start_time.slice(0, 5)} - {s.end_time.slice(0, 5)}
+                </td>
+                <td className="border border-black p-2 text-center">
+                  <button
+                    onClick={() => handleLeaveRequest(s.shift_assignment_id)}
+                    disabled={s.leave_requested === 1}
+                    className={`rounded px-3 py-1 text-white ${s.leave_requested === 1 ? "cursor-not-allowed bg-gray-400" : "bg-red-500 hover:bg-red-600"}`}
+                  >
+                    {s.leave_requested === 1 ? "ลาแล้ว" : "ขอลา"}
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
-
       <h1 className="mb-4 text-center text-2xl font-bold">คำขอลาของฉัน</h1>
       <table className="w-full border border-black">
         <thead>
@@ -169,28 +181,39 @@ export default function NursePage() {
           </tr>
         </thead>
         <tbody>
-          {requests.map((req: any) => (
-            <tr key={req.leave_request_id}>
-              <td className="border border-black p-2 text-center">{`${new Date(req.date).toLocaleDateString("th-TH")} | ${req.start_time.slice(0, 5)} - ${req.end_time.slice(0, 5)}`}</td>
-              <td className="border border-black p-2">{req.reason}</td>
+          {requests.length === 0 ? (
+            <tr>
               <td
-                className={`border border-black p-2 text-center font-bold ${
-                  req.status === "pending"
-                    ? "bg-yellow-100 text-yellow-700"
-                    : req.status === "approved"
-                      ? "bg-green-100 text-green-700"
-                      : req.status === "rejected"
-                        ? "bg-red-100 text-red-700"
-                        : ""
-                }`}
+                colSpan={4}
+                className="border border-black p-4 text-center text-gray-500"
               >
-                {req.status}
-              </td>
-              <td className="border border-black p-2 text-center">
-                {req.approved_by || "-"}
+                ยังไม่มีเวรที่ลา
               </td>
             </tr>
-          ))}
+          ) : (
+            requests.map((req: any, index) => (
+              <tr key={req.leave_request_id || index}>
+                <td className="border border-black p-2 text-center">{`${new Date(req.date).toLocaleDateString("th-TH")} | ${req.start_time.slice(0, 5)} - ${req.end_time.slice(0, 5)}`}</td>
+                <td className="border border-black p-2">{req.reason}</td>
+                <td
+                  className={`border border-black p-2 text-center font-bold ${
+                    req.status === "pending"
+                      ? "bg-yellow-100 text-yellow-700"
+                      : req.status === "approved"
+                        ? "bg-green-100 text-green-700"
+                        : req.status === "rejected"
+                          ? "bg-red-100 text-red-700"
+                          : ""
+                  }`}
+                >
+                  {req.status}
+                </td>
+                <td className="border border-black p-2 text-center">
+                  {req.approved_by || "-"}
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>
